@@ -1,0 +1,30 @@
+extend layout
+//AIzaSyBatmBpZREC-FDsukECb23rJTDjqiYwrms
+block content
+  .row
+    .col-md-4
+      #selector1.textStyle
+        label(for="option1") Select option1:
+        select#quality(name="option1", onchange="")
+          option(value="o")
+          option(value="o1") Option 1
+          option(value="o2") Option 2
+          option(value="o3") Option 3
+          option(value="o4") Option 4
+    .col-md-4
+      #selector2.textStyle
+        label(for="option2") Select option2:
+        select#quality(name="option2", onchange="")
+          option(value="o")
+          option(value="o1") Option 1
+          option(value="o2") Option 2
+          option(value="o3") Option 3
+          option(value="o4") Option 4
+  .col-md-2
+    #buttons
+      button#getView(style = "display:block" type="button", onclick="") Get View
+        span.fa.fa-send.fa-1x.fa-fw
+    button#getView(style = "display:block" type="button", onclick="") Reset
+      span.fa.fa-repeat.fa-1x.fa-fw
+  right
+    iframe(width="600", height="450", frameborder="0", style="border:0", src="https://www.google.com/maps/embed/v1/place?q=Adelaide%2C%20South%20Australia%2C%20Australia&key=AIzaSyBatmBpZREC-FDsukECb23rJTDjqiYwrms")

@@ -1,0 +1,16 @@
+{
+  "name": "CCCAdelaide",
+  "private": "true",
+  "version": "0.0.1",
+  "description": "This is a simple RESTful API for CCC Assignment 2",
+  "dependencies": {
+    "express": "^4.12.3",
+    "jade": "^1.9.2",
+    "morgan":"~1.5.0"
+  },
+  "author": "CCCAdelaide",
+ "repository": {
+  "type": "git",
+  "url": "git:https://github.com/CCCAdelaide/WebApp.git"
+ }
+}
