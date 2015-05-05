@@ -6,14 +6,14 @@ block content
     script(src="http://maps.googleapis.com/maps/api/js?sensor=false")
     .container-fluid
       .row
-        .col-md-2
+        .col-xs-2
           #selector1.textStyle
             label(for="option1") Select view:
             select#quality(name="option1", onchange="")
               option(value="o")
               option(value="o1") Sentiment
               option(value="o2") Option 2
-        .col-md-2
+        .col-xs-2
           #selector2.textStyle
             label(for="option2") Select mood:
             select.select-info#quality(name="option2", onchange="")
@@ -21,13 +21,13 @@ block content
               option(value="o1") Happy
               option(value="o2") Sad
       .row
-        .col-md-2
+        .col-xs-2
           #buttons
             button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="displayMap()") Get View
               span.fa.fa-send
             button.btn.btn-danger.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="javascript:location.reload(true)") Reset
               span.fa.fa-repeat
       .row
-        .col-md-6
+        .col-xs-6
           #map-canvas(style="width:100%; height:500px; margin-left:0px;")
   script(src="home.js")
