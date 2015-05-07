@@ -25,9 +25,13 @@ block content
           #buttons
             button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="displayMap()") Get View
               span.fa.fa-send
-            button.btn.btn-danger.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="javascript:location.reload(true)") Reset
+            button.btn.btn-danger.btn-sm.btn-block#reset(style = "display:block" type="button", onclick="javascript:location.reload(true)") Reset
               span.fa.fa-repeat
+            button.btn.btn-danger.btn-sm.btn-block#JSON(type="button", onclick="JSONTest()") JSON
       .row
         .col-xs-6
           #map-canvas(style="width:100%; height:500px; margin-left:0px;")
+        .col-xs-6
+          #resultDivContainer
   script(src="home.js")
+  script(src="controllers/requests.js")
