@@ -15,6 +15,10 @@ require('./router/router.js')(app); // load our routes and pass in our app and f
 //Static content
 app.use(express.static(__dirname + '/public'));
 
+var jsontest = {"id":522068176457052160,"key":["___Moonjunwon","am",[138.59207620000000816,-35.004808300000000543]],"value":-2};//,
+//{"id":522065502999285761,"key":["___Moonjunwon","am",[138.59212980000000925,-35.004860399999998322]],"value":1};
+//var te = JSON.parse(jsontest);
+console.log(jsontest["key"][2][1]);
 
 //Run server
 var server = require('http').createServer(app);
