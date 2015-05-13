@@ -27,11 +27,15 @@ JSONTest = function(done) {
         var long = obj['rows'][i]['key'][2][0];
         var user =  obj['rows'][i]['key'][0];
         var value = obj['rows'][i]['value']
+        //If within Adelaide
         if(lat<=adelaide[3]&&lat>=adelaide[1] && long>=adelaide[0] &&long<=adelaide[2]){
-          if((sent==="Positive" || sent ==="Both")&&value>0){
+          //console.log("sentiment: "+sent+ value);
+          if(sent==="Positive" && value>=0){
             locations.push([user,lat,long,value]);
-          }else if((sent==="Negative" || sent ==="Both")&&value<0){
-
+          }else if(sent==="Negative" && value<0){
+            locations.push([user,lat,long,value]);
+          }else if(sent==="Both"){
+            locations.push([user,lat,long,value]);
           }
         }
       }

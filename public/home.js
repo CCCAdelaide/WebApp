@@ -1,9 +1,11 @@
 var $getViewBtn = document.getElementById('getView');
-//var $map = document.getElementById('map');
+var $map = document.getElementById('map');
 
 function displayMap(){
   //document.getElementById('map-canvas').style.display = "block";
   //initialize();
+  $map.style.display='block';
+  $map.innerHTML= sent + " map!";
   console.log("showing maP!!")
 }
 
@@ -106,7 +108,7 @@ function setMarkers(map, locs) {
         position: myLatLng,
         map: map,
         icon: img,
-        title: tweet[0],
+        title: "@"+tweet[0],
         shape: shape,
     });
     markerBounds.extend(myLatLng);

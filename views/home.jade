@@ -5,36 +5,42 @@ block content
   body
     script(src="http://maps.googleapis.com/maps/api/js?sensor=false")
     .container-fluid
-      .row
-        .col-xs-2
-          #selector1.textStyle(style = "display:block")
-            label(for="option1") Select view:
-            select.form-control#views(onchange="configureDropDownLists(this,document.getElementById('values'))")
-              option(value="")
-              option(value="Sentiment") Sentiment
-              option(value="Source") Tweet source
-              option(value="Days") Tweets per day
-              option(value="Origin") Origin
-        .col-xs-2
-          #selector2.textStyle(style = "display:none")
-            label(for="option2") Select type:
-            select.form-control#values(onchange="enableGetView(this)")
-      br
-      .row
-        .col-xs-2
-          #buttons
-            button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="displayMap()",disabled="") Get View
-              span.fa.fa-send
-            button.btn.btn-danger.btn-sm.btn-block#reset(style = "display:block" type="button", onclick="javascript:location.reload(true)") Reset
-              span.fa.fa-repeat
-      .row
-        .col-xs-12#loading(style = "display:none").center
-          i.fa.fa-spinner.fa-5x.fa-spin
-      .row
-        .col-xs-6.col-xs-push-2
-          #map-canvas(style="width:100%; height:500px; margin-left:0px;")
-        .col-xs-6
-          #resultDivContainer
+      .jumbotron.text-center
+        .row
+          .col-xs-3
+            #selector1.textStyle(style = "display:block")
+              label(for="option1") Select view:
+              select.form-control#views(onchange="configureDropDownLists(this,document.getElementById('values'))")
+                option(value="")
+                option(value="Sentiment") Sentiment
+                option(value="Source") Tweet source
+                option(value="Days") Tweets per day
+                option(value="Origin") Origin
+          .col-xs-3
+            #selector2.textStyle(style = "display:none")
+              label(for="option2") Select type:
+              select.form-control#values(onchange="enableGetView(this)")
+        br
+        .row
+          .col-xs-2
+            #buttons
+              button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="displayMap()",disabled="") Get View
+                span.fa.fa-send
+              button.btn.btn-danger.btn-sm.btn-block#reset(style = "display:block" type="button", onclick="javascript:location.reload(true)") Reset
+                span.fa.fa-repeat
+        .row
+          .col-xs-3#loading.col-xs-push-2(style = "display:none")
+            i.fa.fa-spinner.fa-5x.fa-spin
+            | Loading please wait...
+        .row
+          .col-xs-6.col-xs-push-2
+            #map-canvas(style="width:100%; height:500px; margin-left:0px;")
+            .row#map(style="display:none")
+              h4.text-center
+                p.bg-primary
+                |  Map #{sent}
+          .col-xs-6
+            #resultDivContainer
   script(src="controllers/requests.js")
   script(src="home.js")
   //script(src="controllers/requests.js")
