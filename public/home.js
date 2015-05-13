@@ -52,14 +52,32 @@ function setMarkers(map, locs) {
   // increase in the X direction to the right and in
   // the Y direction down.
   console.log("setting markers")
-  var image = {
-    url: 'images/beachflag.png',
-    // This marker is 20 pixels wide by 32 pixels tall.
-    size: new google.maps.Size(20, 32),
+  var positiveImg = {
+    url: 'images/user-online.png',
+    // This marker is 16 pixels wide by 16 pixels tall.
+    size: new google.maps.Size(16, 16),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 32)
+    anchor: new google.maps.Point(0, 16)
+  };
+  var negativeImg = {
+    url: 'images/user-offline.png',
+    // This marker is 16 pixels wide by 16 pixels tall.
+    size: new google.maps.Size(16, 16),
+    // The origin for this image is 0,0.
+    origin: new google.maps.Point(0,0),
+    // The anchor for this image is the base of the flagpole at 0,32.
+    anchor: new google.maps.Point(0, 16)
+  };
+  var neutralImg = {
+    url: 'images/white_dot.png',
+    // This marker is 16 pixels wide by 16 pixels tall.
+    size: new google.maps.Size(15, 15),
+    // The origin for this image is 0,0.
+    origin: new google.maps.Point(0,0),
+    // The anchor for this image is the base of the flagpole at 0,32.
+    anchor: new google.maps.Point(0, 15)
   };
   // Shapes define the clickable region of the icon.
   // The type defines an HTML &lt;area&gt; element 'poly' which
@@ -73,11 +91,21 @@ function setMarkers(map, locs) {
   var markerBounds = new google.maps.LatLngBounds();
   for (var i = 0; i < locs.length; i++) {
     var tweet = locs[i];
+
     var myLatLng = new google.maps.LatLng(tweet[1], tweet[2]);
+    var img;
+
+    if(tweet[3]>0){
+      img = positiveImg;
+    }else if(tweet[3]<0){
+      img = negativeImg;
+    }else{
+      img = neutralImg;
+    }
     var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
-        icon: image,
+        icon: img,
         title: tweet[0],
         shape: shape,
     });

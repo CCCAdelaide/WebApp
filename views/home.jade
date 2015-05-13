@@ -2,34 +2,36 @@ extend layout
 head
 //AIzaSyBatmBpZREC-FDsukECb23rJTDjqiYwrms
 block content
-  body.modal-open
+  body
     script(src="http://maps.googleapis.com/maps/api/js?sensor=false")
     .container-fluid
       .row
         .col-xs-2
-          #selector1.textStyle
+          #selector1.textStyle(style = "display:block")
             label(for="option1") Select view:
-            select#quality(name="option1", onchange="")
-              option(value="o")
-              option(value="o1") Sentiment
-              option(value="o2") Option 2
+            select.form-control#views(onchange="configureDropDownLists(this,document.getElementById('values'))")
+              option(value="")
+              option(value="Sentiment") Sentiment
+              option(value="Source") Tweet source
+              option(value="Days") Tweets per day
+              option(value="Origin") Origin
         .col-xs-2
-          #selector2.textStyle
-            label(for="option2") Select mood:
-            select.select-info#quality(name="option2", onchange="")
-              option(value="o")
-              option(value="o1") Happy
-              option(value="o2") Sad
+          #selector2.textStyle(style = "display:none")
+            label(for="option2") Select type:
+            select.form-control#values(onchange="enableGetView(this)")
+      br
       .row
         .col-xs-2
           #buttons
-            button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="displayMap()") Get View
+            button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="displayMap()",disabled="") Get View
               span.fa.fa-send
             button.btn.btn-danger.btn-sm.btn-block#reset(style = "display:block" type="button", onclick="javascript:location.reload(true)") Reset
               span.fa.fa-repeat
-            button.btn.btn-danger.btn-sm.btn-block#JSON(type="button", onclick="JSONTest()") JSON
       .row
-        .col-xs-6
+        .col-xs-12#loading(style = "display:none").center
+          i.fa.fa-spinner.fa-5x.fa-spin
+      .row
+        .col-xs-6.col-xs-push-2
           #map-canvas(style="width:100%; height:500px; margin-left:0px;")
         .col-xs-6
           #resultDivContainer
