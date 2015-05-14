@@ -4,6 +4,7 @@ head
 block content
   body
     script(src="http://maps.googleapis.com/maps/api/js?sensor=false")
+    script(src="https://www.google.com/jsapi")
     .container-fluid
       .jumbotron.text-center
         .row
@@ -24,9 +25,11 @@ block content
         .row
           .col-xs-2
             #buttons
-              button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button", onclick="displayMap()",disabled="") Get View
+              button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button",disabled="") Get View
                 span.fa.fa-send
               button.btn.btn-danger.btn-sm.btn-block#reset(style = "display:block" type="button", onclick="javascript:location.reload(true)") Reset
+                span.fa.fa-repeat
+              button.btn.btn-info.btn-sm.btn-block#chart(style = "display:block" type="button", onclick="drawChart()") Chart
                 span.fa.fa-repeat
         .row
           .col-xs-3#loading.col-xs-push-2(style = "display:none")
@@ -39,8 +42,10 @@ block content
               h4.text-center
                 p.bg-primary
                 |  Map #{sent}
-          .col-xs-6
-            #resultDivContainer
+        .row
+          .col-xs-6.col-xs-push-2
+            #resultContainer(style="display: none")
   script(src="controllers/requests.js")
   script(src="home.js")
+  script(src="controllers/charts.js")
   //script(src="controllers/requests.js")

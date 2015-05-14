@@ -4,9 +4,11 @@ var $map = document.getElementById('map');
 function displayMap(){
   //document.getElementById('map-canvas').style.display = "block";
   //initialize();
-  $map.style.display='block';
-  $map.innerHTML= sent + " map!";
-  console.log("showing maP!!")
+  if (showMap==true){
+    $map.style.display='block';
+    $map.innerHTML= sent + " map!";
+    console.log("showing maP!!");
+  }
 }
 
 // The following example creates complex markers to indicate beaches near
@@ -14,7 +16,7 @@ function displayMap(){
 // (0,32) to correspond to the base of the flagpole.
 
 function run(){
-  JSONTest(initialize);
+  GetView(initialize);
 }
 function initialize() {
   var mapOptions = {
