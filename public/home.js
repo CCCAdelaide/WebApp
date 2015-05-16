@@ -4,11 +4,7 @@ var $map = document.getElementById('map');
 function displayMap(){
   //document.getElementById('map-canvas').style.display = "block";
   //initialize();
-  if (showMap==true){
-    $map.style.display='block';
-    $map.innerHTML= sent + " map!";
-    console.log("showing maP!!");
-  }
+
 }
 
 // The following example creates complex markers to indicate beaches near
@@ -119,5 +115,6 @@ function setMarkers(map, locs) {
   //var markerBounds = new google.maps.LatLngBounds();
   map.fitBounds(markerBounds);
 }
-google.maps.event.addDomListener($getViewBtn, 'click', run);
+
+//google.maps.event.addDomListener($getViewBtn, 'click', run);
 //google.maps.event.addDomListener(window, 'load', initialize);

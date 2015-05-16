@@ -6,11 +6,11 @@ block content
     script(src="http://maps.googleapis.com/maps/api/js?sensor=false")
     script(src="https://www.google.com/jsapi")
     .container-fluid
-      .jumbotron.text-center
+      .text-center
         .row
           .col-xs-3
             #selector1.textStyle(style = "display:block")
-              label(for="option1") Select view:
+              label.text-info(for="option1") Select view:
               select.form-control#views(onchange="configureDropDownLists(this,document.getElementById('values'))")
                 option(value="")
                 option(value="Sentiment") Sentiment
@@ -19,32 +19,32 @@ block content
                 option(value="Origin") Origin
           .col-xs-3
             #selector2.textStyle(style = "display:none")
-              label(for="option2") Select type:
+              label.text-info(for="option2") Select type:
               select.form-control#values(onchange="enableGetView(this)")
         br
         .row
           .col-xs-2
             #buttons
-              button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button",disabled="") Get View
+              button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button",disabled="",onclick="GetViewButton()") Get View
                 span.fa.fa-send
-              button.btn.btn-danger.btn-sm.btn-block#reset(style = "display:block" type="button", onclick="javascript:location.reload(true)") Reset
-                span.fa.fa-repeat
-              button.btn.btn-info.btn-sm.btn-block#chart(style = "display:block" type="button", onclick="drawChart()") Chart
+              button.btn.btn-danger.btn-sm.btn-block#reset(style = "display:block" type="button", onclick="javascript:location.reload(true)",disabled="") Reset
                 span.fa.fa-repeat
         .row
-          .col-xs-3#loading.col-xs-push-2(style = "display:none")
+          .col-xs-6#loading.col-xs-push-2(style = "display:none")
             i.fa.fa-spinner.fa-5x.fa-spin
             | Loading please wait...
-        .row
-          .col-xs-6.col-xs-push-2
+        br
+        .row.collapse
+          .col-xs-6.col-xs-offset-3
             #map-canvas(style="width:100%; height:500px; margin-left:0px;")
             .row#map(style="display:none")
-              h4.text-center
-                p.bg-primary
-                |  Map #{sent}
+              .col-xs-12
+                h2.text-center.text-success
         .row
-          .col-xs-6.col-xs-push-2
-            #resultContainer(style="display: none")
+          .col-xs-6.col-xs-offset-3
+            #chart
+        .row
+          #error
   script(src="controllers/requests.js")
   script(src="home.js")
   script(src="controllers/charts.js")

@@ -1,52 +1,75 @@
-//var baseURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/";
-var baseURL = "http://146.118.96.142:5984/tweets_adelaide/_design/adelaideview/_view/";
+var baseURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/";
+//var baseURL = "http://146.118.96.142:5984/tweets_adelaide/_design/adelaideview/_view/";
 //http://146.118.96.142/
-var origin = "trueorigin?group_level=1";
-var feelings ="feelings";
-var source = "sourcetweet?group_level=1";
-var days = "days_most_tweet?group_level=1";
+var originURL = "trueorigin?group_level=1";
+var feelingsURL ="feelings";
+var sourceURL = "sourcetweet?group_level=1";
+var daysURL = "days_most_tweet?group_level=1";
 
 var test = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/feelings";// ?callback=?"
 //feelings
 //MAX
 var $selector2=document.getElementById('selector2');
 var $loading=document.getElementById('loading');
-var $resultContainer = document.getElementById('resultContainer');
 var sent ="";
 theURL = "";
 locations = [];
 showMap = false;
+showChart = false;
+var typeOfGraph="";
 var adelaide = [138.452454,-35.158091,138.757324,-34.682911]
 //138.452454,-35.158091,138.757324,-34.682911
+function GetViewButton(){
+  $getViewBtn.disabled=true;
+  if(showMap==true){
+    $('.collapse').collapse("show");
+    //console.log("run()?");
+    run();
+  }else{
+    $('.collapse').collapse("hide");
+  //  console.log("get view button working");
+    GetView(function(){
+      console.log("chart loaded...");
+    });
+  }
+}
 GetView = function(done) {
+  console.log(showMap);
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.open("GET",theURL,true);
   xmlhttp.send();
   $loading.style.display='block';
+
   xmlhttp.onreadystatechange=function()
   {
-    $loading.style.display='none';
-    $resultContainer.style.display='block';
-    console.log(xmlhttp.status);
+
     if (xmlhttp.readyState==4 && xmlhttp.status==200){
       var obj = JSON.parse(xmlhttp.responseText);
+      console.log(obj);
       if (showMap==true){
-        displayMap();
         feelingsMap(obj);
       }
-      console.log(obj);
+      drawChart(obj['rows'],typeOfGraph);
       done();
-    }else{
-      $resultContainer.innerHTML = "Server: "+xmlhttp.status;
+      $loading.style.display='none';
     }
+    $getViewBtn.disabled=true;
+    document.getElementById('selector1').disabled=true;
+    document.getElementById('selector2').disabled=true;
+    document.getElementById('reset').disabled=false;
   }
-
-
+  if(xmlhttp.status==404){
+      document.getElementById('error').innerHTML = "Error! "+xmlhttp.status;
+  }
 };
 
 //Selectors
 function configureDropDownLists(ddl1,ddl2) {
   var feelings = new Array('','Positive', 'Negative', 'Both');
+  selector2.style.display='none';
+  showMap = false;
+  showChart = true;
+
   switch (ddl1.value) {
     case 'Sentiment':
       selector2.style.display='block';
@@ -55,28 +78,31 @@ function configureDropDownLists(ddl1,ddl2) {
         createOption(ddl2, feelings[i], feelings[i]);
       }
       showMap = true;
-      theURL = baseURL+feelings;
+      showChart = false;
+      typeOfGraph="Sentiment";
+      theURL = baseURL+feelingsURL;
       break;
     case 'Days':
       $getViewBtn.disabled=false;
-      selector2.style.display='none';
-      theURL = baseURL +days;
+      theURL = baseURL +daysURL
+      typeOfGraph ="Days";
       break;
     case 'Source':
       $getViewBtn.disabled=false;
-      selector2.style.display='none';
-      theURL = baseURL +source;
+      theURL = baseURL +sourceURL;
+      typeOfGraph = "Source";
       break;
     case 'Origin':
       $getViewBtn.disabled=false;
-      selector2.style.display='none';
-      theURL = baseURL +origin;
+      theURL = baseURL +originURL;
+      typeOfGraph = "Origin";
       break;
     //case '':
     //  break;
     default:
-      $getViewBtn.disabled=true;
-      selector2.style.display='none';
+      showMap = false;
+      showChart= false;
+      $getViewBtn.disabled=false;
       ddl2.options.length = 0;
       break;
   }
@@ -95,6 +121,14 @@ function enableGetView(ddl){
 }
 
 function feelingsMap(obj){
+  if (showMap==true){
+    $map.style.display='block';
+    $map.innerHTML= sent + " map!";
+    console.log("showing maP!!");
+  }
+  var totalPos = 0;
+  var totalNeg = 0;
+  fTable = [["Sentiment","Total"]];
   for (i=0;i<obj['rows'].length;i++){
     var lat = obj['rows'][i]['key'][2][1];
     var long = obj['rows'][i]['key'][2][0];
@@ -102,14 +136,22 @@ function feelingsMap(obj){
     var value = obj['rows'][i]['value']
     //If within Adelaide
     if(lat<=adelaide[3]&&lat>=adelaide[1] && long>=adelaide[0] &&long<=adelaide[2]){
-      //console.log("sentiment: "+sent+ value);
       if(sent==="Positive" && value>=0){
+        totalPos+=1;
         locations.push([user,lat,long,value]);
       }else if(sent==="Negative" && value<0){
+        totalNeg+=1;
         locations.push([user,lat,long,value]);
       }else if(sent==="Both"){
+        if(value>=0){
+          totalPos+=1;
+        }else{
+          totalNeg+=1;
+        }
         locations.push([user,lat,long,value]);
       }
     }
   }
+  fTable.push(["Positive",totalPos]);
+  fTable.push(["Negative",totalNeg]);
 }
