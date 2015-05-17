@@ -8,7 +8,7 @@ block content
     .container-fluid
       .text-center
         .row
-          .col-xs-3
+          .col-xs-3.col-xs-offset-1
             #selector1.textStyle(style = "display:block")
               label.text-info(for="option1") Select view:
               select.form-control#views(onchange="configureDropDownLists(this,document.getElementById('values'))")
@@ -17,13 +17,18 @@ block content
                 option(value="Source") Tweet source
                 option(value="Days") Tweets per day
                 option(value="Origin") Origin
+                option(value="PerDay") Sentiments Per Day
           .col-xs-3
             #selector2.textStyle(style = "display:none")
               label.text-info(for="option2") Select type:
               select.form-control#values(onchange="enableGetView(this)")
+          .col-xs-3
+            #typeNum.textStyle(style = "display:none")
+              label.text-info(for="option1") Write number:
+              input.form-control#topnum(type="number", placeholder="Leave blank for all values")
         br
         .row
-          .col-xs-2
+          .col-xs-2.col-xs-offset-1
             #buttons
               button.btn.btn-success.btn-sm.btn-block#getView(style = "display:block" type="button",disabled="",onclick="GetViewButton()") Get View
                 span.fa.fa-send
@@ -43,6 +48,12 @@ block content
         .row
           .col-xs-6.col-xs-offset-3
             #chart
+        .row
+          .col-xs-6.col-xs-offset-3
+            #chart2
+        .row
+          .col-xs-6.col-xs-offset-3
+            #chart3
         .row
           #error
   script(src="controllers/requests.js")

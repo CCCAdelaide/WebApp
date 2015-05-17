@@ -5,13 +5,16 @@ var originURL = "trueorigin?group_level=1";
 var feelingsURL ="feelings";
 var sourceURL = "sourcetweet?group_level=1";
 var daysURL = "days_most_tweet?group_level=1";
-
+var perDayURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
 var test = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/feelings";// ?callback=?"
 //feelings
-//MAX
+//MAXgroup
 var $selector2=document.getElementById('selector2');
 var $loading=document.getElementById('loading');
+var $typeNum = document.getElementById('typeNum');
+var $topNum = document.getElementById('topnum');
 var sent ="";
+
 theURL = "";
 locations = [];
 showMap = false;
@@ -55,8 +58,9 @@ GetView = function(done) {
     }
     $getViewBtn.disabled=true;
     document.getElementById('selector1').disabled=true;
-    document.getElementById('selector2').disabled=true;
-    document.getElementById('reset').disabled=false;
+    $selector2.disabled=true;
+
+
   }
   if(xmlhttp.status==404){
       document.getElementById('error').innerHTML = "Error! "+xmlhttp.status;
@@ -66,13 +70,15 @@ GetView = function(done) {
 //Selectors
 function configureDropDownLists(ddl1,ddl2) {
   var feelings = new Array('','Positive', 'Negative', 'Both');
-  selector2.style.display='none';
+  $selector2.style.display='none';
+  $typeNum.style.display='none';
   showMap = false;
   showChart = true;
-
+  $getViewBtn.disabled=true;
+  document.getElementById('reset').disabled=false;
   switch (ddl1.value) {
     case 'Sentiment':
-      selector2.style.display='block';
+      $selector2.style.display='block';
       ddl2.options.length = 0;
       for (i = 0; i < feelings.length; i++) {
         createOption(ddl2, feelings[i], feelings[i]);
@@ -84,25 +90,35 @@ function configureDropDownLists(ddl1,ddl2) {
       break;
     case 'Days':
       $getViewBtn.disabled=false;
+    //  $typeNum.style.display='block';
       theURL = baseURL +daysURL
       typeOfGraph ="Days";
       break;
     case 'Source':
       $getViewBtn.disabled=false;
+      $typeNum.style.display='block';
       theURL = baseURL +sourceURL;
       typeOfGraph = "Source";
       break;
     case 'Origin':
       $getViewBtn.disabled=false;
+      $typeNum.style.display='block';
       theURL = baseURL +originURL;
       typeOfGraph = "Origin";
       break;
+    case 'PerDay':
+        $getViewBtn.disabled=false;
+        $typeNum.style.display='block';
+        theURL = perDayURL;
+        typeOfGraph = "Sentiment Per Day";
+        break;
     //case '':
     //  break;
     default:
       showMap = false;
       showChart= false;
-      $getViewBtn.disabled=false;
+      $getViewBtn.disabled=true;
+      $typeNum.style.display='none';
       ddl2.options.length = 0;
       break;
   }
@@ -121,11 +137,11 @@ function enableGetView(ddl){
 }
 
 function feelingsMap(obj){
-  if (showMap==true){
+
     $map.style.display='block';
     $map.innerHTML= sent + " map!";
     console.log("showing maP!!");
-  }
+
   var totalPos = 0;
   var totalNeg = 0;
   fTable = [["Sentiment","Total"]];
