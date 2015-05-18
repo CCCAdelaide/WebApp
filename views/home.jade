@@ -1,9 +1,16 @@
+/*
+Team 9 - Adelaide
+Jun Jen Chan - 341759
+Tou Lee - 656128
+David Monroy - 610346
+Daniel Teh - 558424
+Jaime Martinez - 642231
+*/
 extend layout
 head
-//AIzaSyBatmBpZREC-FDsukECb23rJTDjqiYwrms
 block content
   body
-    script(src="http://maps.googleapis.com/maps/api/js?sensor=false")
+    script(src="https://maps.googleapis.com/maps/api/js?libraries=visualization,geometry&sensor=true_or_false")
     script(src="https://www.google.com/jsapi")
     .container-fluid
       .text-center
@@ -18,10 +25,13 @@ block content
                 option(value="Days") Tweets per day
                 option(value="Origin") Origin
                 option(value="PerDay") Sentiments Per Day
+                option(value="Religion") Sentiments Per Religion
           .col-xs-3
             #selector2.textStyle(style = "display:none")
               label.text-info(for="option2") Select type:
               select.form-control#values(onchange="enableGetView(this)")
+              input#htmap(type="checkbox", name="htmap", checked=(true===false ? "checked" : undefined))
+              |  Heat map?
           .col-xs-3
             #typeNum.textStyle(style = "display:none")
               label.text-info(for="option1") Write number:
@@ -40,23 +50,28 @@ block content
             | Loading please wait...
         br
         .row.collapse
-          .col-xs-6.col-xs-offset-3
+          .col-xs-5.col-xs-offset-1
             #map-canvas(style="width:100%; height:500px; margin-left:0px;")
             .row#map(style="display:none")
               .col-xs-12
                 h2.text-center.text-success
+          .col-xs-5
+            iframe#ftlayer(src="https://www.google.com/fusiontables/embedviz?q=select+col0+from+1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3ORa&viz=MAP&h=false&lat=-35.38390438777715&lng=138.9491878106992&t=1&z=9&l=col0&y=2&tmplt=2&hml=KML" style="display:none; width:100%; height:500px; margin-left:0px;")
         .row
-          .col-xs-6.col-xs-offset-3
+          .col-xs-6.col-xs-offset-2
             #chart
         .row
-          .col-xs-6.col-xs-offset-3
+          .col-xs-5.col-xs-offset-2
             #chart2
-        .row
-          .col-xs-6.col-xs-offset-3
+          .col-xs-5
             #chart3
+        .row
+          .col-xs-5.col-xs-offset-2
+            #chart4
+          .col-xs-5
+            #chart5
         .row
           #error
   script(src="controllers/requests.js")
   script(src="home.js")
   script(src="controllers/charts.js")
-  //script(src="controllers/requests.js")

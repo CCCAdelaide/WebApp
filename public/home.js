@@ -1,15 +1,14 @@
-var $getViewBtn = document.getElementById('getView');
+/*
+Team 9 - Adelaide
+Jun Jen Chan - 341759
+Tou Lee - 656128
+David Monroy - 610346
+Daniel Teh - 558424
+Jaime Martinez - 642231
+*/
+
+
 var $map = document.getElementById('map');
-
-function displayMap(){
-  //document.getElementById('map-canvas').style.display = "block";
-  //initialize();
-
-}
-
-// The following example creates complex markers to indicate beaches near
-// Sydney, NSW, Australia. Note that the anchor is set to
-// (0,32) to correspond to the base of the flagpole.
 
 function run(){
   GetView(initialize);
@@ -20,27 +19,43 @@ function initialize() {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: new google.maps.LatLng(-34.92, 138.60)
   }
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
-                                mapOptions);
+  map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+  console.log(drawHeatMap);
+  if(!drawHeatMap){
+    setMarkers(map, locations);
+    heatmap = new google.maps.visualization.HeatmapLayer({
+      data: heatMapData
+    });
+    heatmap.setMap(map);
+  }else{
+    var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatMapData
+    });
+    heatmap.setMap(map);
 
-  setMarkers(map, locations);
-  //google.maps.event.trigger(map, 'resize');
+  /*  var layer = new google.maps.FusionTablesLayer({
+    query: {
+      select: 'col0',
+      //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
+      from: 'LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3OR'
+    },
+    heatmap: {
+    //  data: heatMapData,
+      enabled: true
+    }*/
+//  layer.setMap(map);
+}
+    /*var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatMapData
+    });
+    heatmap.setMap(map);
+  }*/
 }
 
 $('#map-canvas').on('shown', function () {
   google.maps.event.trigger(map, 'resize');
-//  map.setCenter(new google.maps.LatLng(42.3605336, -72.6362989));
-})
-/**
- * Data for the markers consisting of a name, a LatLng and a zIndex for
- * the order in which these markers should display on top of each
- * other.
- */
-var beaches = [
-  [ -34.9290, 138.6010],
-  [-34.9453, 138.5038],
-];
-
+});
+//google.maps.event.addListener(map, 'shown','resize');
 function setMarkers(map, locs) {
   // Add markers to the map
 
@@ -115,6 +130,7 @@ function setMarkers(map, locs) {
   //var markerBounds = new google.maps.LatLngBounds();
   map.fitBounds(markerBounds);
 }
-
-//google.maps.event.addDomListener($getViewBtn, 'click', run);
-//google.maps.event.addDomListener(window, 'load', initialize);
+//listeners
+google.maps.event.addListener(map, 'zoom_changed', function () {
+         heatmap.setOptions({radius:getNewRadius()});
+     });

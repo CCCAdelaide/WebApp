@@ -1,24 +1,39 @@
+/*
+Team 9 - Adelaide
+Jun Jen Chan - 341759
+Tou Lee - 656128
+David Monroy - 610346
+Daniel Teh - 558424
+Jaime Martinez - 642231
+*/
+
+
 var baseURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/";
-//var baseURL = "http://146.118.96.142:5984/tweets_adelaide/_design/adelaideview/_view/";
-//http://146.118.96.142/
+
 var originURL = "trueorigin?group_level=1";
 var feelingsURL ="feelings";
 var sourceURL = "sourcetweet?group_level=1";
 var daysURL = "days_most_tweet?group_level=1";
 var perDayURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
-var test = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/feelings";// ?callback=?"
+var test = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/feelings";
+//Sentiment analysis
+var religion = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
+
 //feelings
 //MAXgroup
 var $selector2=document.getElementById('selector2');
 var $loading=document.getElementById('loading');
 var $typeNum = document.getElementById('typeNum');
 var $topNum = document.getElementById('topnum');
+var $getViewBtn = document.getElementById('getView');
 var sent ="";
 
 theURL = "";
 locations = [];
+heatMapData =[];
 showMap = false;
 showChart = false;
+drawHeatMap = false;
 var typeOfGraph="";
 var adelaide = [138.452454,-35.158091,138.757324,-34.682911]
 //138.452454,-35.158091,138.757324,-34.682911
@@ -50,6 +65,8 @@ GetView = function(done) {
       var obj = JSON.parse(xmlhttp.responseText);
       console.log(obj);
       if (showMap==true){
+        drawHeatMap= document.getElementById('htmap').checked;
+        document.getElementById('ftlayer').style.display='block';
         feelingsMap(obj);
       }
       drawChart(obj['rows'],typeOfGraph);
@@ -59,8 +76,6 @@ GetView = function(done) {
     $getViewBtn.disabled=true;
     document.getElementById('selector1').disabled=true;
     $selector2.disabled=true;
-
-
   }
   if(xmlhttp.status==404){
       document.getElementById('error').innerHTML = "Error! "+xmlhttp.status;
@@ -108,9 +123,16 @@ function configureDropDownLists(ddl1,ddl2) {
       break;
     case 'PerDay':
         $getViewBtn.disabled=false;
-        $typeNum.style.display='block';
+//        $typeNum.style.display='block';
         theURL = perDayURL;
         typeOfGraph = "Sentiment Per Day";
+        break;
+        break;
+    case 'Religion':
+        $getViewBtn.disabled=false;
+  //       $typeNum.style.display='block';
+        theURL = religion;
+        typeOfGraph = "Religion";
         break;
     //case '':
     //  break;
@@ -152,12 +174,15 @@ function feelingsMap(obj){
     var value = obj['rows'][i]['value']
     //If within Adelaide
     if(lat<=adelaide[3]&&lat>=adelaide[1] && long>=adelaide[0] &&long<=adelaide[2]){
+      var latLngObj =  new google.maps.LatLng(lat, long);
       if(sent==="Positive" && value>=0){
         totalPos+=1;
         locations.push([user,lat,long,value]);
+        heatMapData.push(latLngObj);
       }else if(sent==="Negative" && value<0){
         totalNeg+=1;
         locations.push([user,lat,long,value]);
+        heatMapData.push(latLngObj);
       }else if(sent==="Both"){
         if(value>=0){
           totalPos+=1;
@@ -165,7 +190,9 @@ function feelingsMap(obj){
           totalNeg+=1;
         }
         locations.push([user,lat,long,value]);
+        heatMapData.push(latLngObj);
       }
+
     }
   }
   fTable.push(["Positive",totalPos]);

@@ -6,4 +6,4 @@ git clone https://github.com/CCCAdelaide/WebApp.git
 cd WebApp
 sudo npm install
 sudo npm install -g forever
-1forever app.js
+sudo forever app.js
