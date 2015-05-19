@@ -8,19 +8,19 @@ Jaime Martinez - 642231
 */
 
 
-//var baseURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/";
-var baseURL = "http://localhost:5984/tweets_adelaide/_design/adelaideview/_view/";
+var baseURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/";
+//var baseURL = "http://localhost:5984/tweets_adelaide/_design/adelaideview/_view/";
 var originURL = "trueorigin?group_level=1";
 var feelingsURL ="feelings";
 var sourceURL = "sourcetweet?group_level=1";
 var daysURL = "days_most_tweet?group_level=1";
-//var perDayURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
-var perDayURL = "http://localhost:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
-//var test = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/feelings";
-var test = "http://localhost:5984/tweets_adelaide/_design/adelaideview/_view/feelings";
+var perDayURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
+//var perDayURL = "http://localhost:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
+var test = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/feelings";
+//var test = "http://localhost:5984/tweets_adelaide/_design/adelaideview/_view/feelings";
 //Sentiment analysis
-//var religion = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
-var religion = "http://localhost:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
+var religion = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
+//var religion = "http://localhost:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
 
 //feelings
 //MAXgroup
