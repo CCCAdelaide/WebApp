@@ -22,6 +22,7 @@ var daysURL = "days_most_tweet?group_level=1";
 var baseURL = "http://"+host+":5984/tweets_adelaide/_design/adelaideview/_view/";
 var religion = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
 var perDayURL = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
+var allTweetsURL = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/"
 
 // Divs
 var $selector2=document.getElementById('selector2');
@@ -37,9 +38,10 @@ heatMapData =[];
 showMap = false;
 showChart = false;
 drawHeatMap = false;
+all_tweets_map = false;
 var typeOfGraph="";
-north = [138.213501,-34.953493,139.070435,-34.492975]
-south = [138.213501,-35.395767,139.070435,-34.953493]
+//north = [138.213501,-34.953493,139.070435,-34.492975]
+//south = [138.213501,-35.395767,139.070435,-34.953493]
 //var adelaide = [138.452454,-35.158091,138.757324,-34.682911]
 var adelaide = [138.213501,-35.395767,139.070435,-34.492975]
 //138.452454,-35.158091,138.757324,-34.682911
@@ -49,6 +51,9 @@ function GetViewButton(){
     $('.collapse').collapse("show");
     //console.log("run()?");
     run();
+  }else if (all_tweets_map){
+    $('.collapse').collapse("show");
+    run2();
   }else{
     $('.collapse').collapse("hide");
   //  console.log("get view button working");
@@ -74,6 +79,10 @@ GetView = function(done) {
         drawHeatMap= document.getElementById('htmap').checked;
       //  document.getElementById('ftlayer').style.display='block';
         feelingsMap(obj);
+        console.log(obj);
+      }else if (all_tweets_map){
+        drawHeatMap= document.getElementById('htmap').checked;
+        allTweetsMap(obj);
       }
       drawChart(obj['rows'],typeOfGraph);
       done();
@@ -135,7 +144,6 @@ function configureDropDownLists(ddl1,ddl2) {
         theURL = perDayURL;
         typeOfGraph = "Sentiment Per Day";
         break;
-        break;
     case 'Religion':
         $getViewBtn.disabled=false;
   //       $typeNum.style.display='block';
@@ -144,6 +152,13 @@ function configureDropDownLists(ddl1,ddl2) {
         break;
     //case '':
     //  break;
+    case 'AllTweets':
+        $getViewBtn.disabled=false;
+  //       $typeNum.style.display='block';
+        theURL = allTweetsURL;
+        all_tweets_map = true;
+        typeOfGraph = "All Tweets";
+        break;
     default:
       showMap = false;
       showChart= false;
@@ -167,6 +182,47 @@ function enableGetView(ddl){
 }
 
 function feelingsMap(obj){
+
+    $map.style.display='block';
+    $map.innerHTML= sent + " map!";
+    console.log("showing maP!!");
+
+  var totalPos = 0;
+  var totalNeg = 0;
+  fTable = [["Sentiment","Total"]];
+  for (i=0;i<obj['rows'].length;i++){
+    var lat = obj['rows'][i]['key'][2][1];
+    var long = obj['rows'][i]['key'][2][0];
+    var user =  obj['rows'][i]['key'][0];
+    var value = obj['rows'][i]['value']
+    //If within Adelaide
+    if(lat<=adelaide[3]&&lat>=adelaide[1] && long>=adelaide[0] &&long<=adelaide[2]){
+      var latLngObj =  new google.maps.LatLng(lat, long);
+      if(sent==="Positive" && value>=0){
+        totalPos+=1;
+        locations.push([user,lat,long,value]);
+        heatMapData.push(latLngObj);
+      }else if(sent==="Negative" && value<0){
+        totalNeg+=1;
+        locations.push([user,lat,long,value]);
+        heatMapData.push(latLngObj);
+      }else if(sent==="Both"){
+        if(value>=0){
+          totalPos+=1;
+        }else{
+          totalNeg+=1;
+        }
+        locations.push([user,lat,long,value]);
+        heatMapData.push(latLngObj);
+      }
+
+    }
+  }
+  fTable.push(["Positive",totalPos]);
+  fTable.push(["Negative",totalNeg]);
+}
+
+function allTweetsMap(obj){
 
     $map.style.display='block';
     $map.innerHTML= sent + " map!";

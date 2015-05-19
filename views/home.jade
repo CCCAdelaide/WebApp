@@ -26,6 +26,7 @@ block content
                 option(value="Origin") Origin
                 option(value="PerDay") Sentiments Per Day
                 option(value="Religion") Sentiments Per Religion
+                option(value="AllTweets") Hospitals
           .col-xs-3
             #selector2.textStyle(style = "display:none")
               label.text-info(for="option2") Select type:
@@ -74,4 +75,6 @@ block content
           #error
   script(src="controllers/requests.js")
   script(src="home.js")
+  script(src="controllers/all_tweets.js")
+  script(src="controllers/charts.js")
   script(src="controllers/charts.js")
