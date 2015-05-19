@@ -23,28 +23,35 @@ function initialize() {
   console.log(drawHeatMap);
   if(!drawHeatMap){
     setMarkers(map, locations);
+    /*var layer = new google.maps.FusionTablesLayer({
+      query: {
+        select: 'col0',
+        //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
+        from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3ORa'
+      },
+      styleId: 2
+    });
+    layer.setMap(map);*/
     heatmap = new google.maps.visualization.HeatmapLayer({
       data: heatMapData
     });
     heatmap.setMap(map);
   }else{
-  /*  var heatmap = new google.maps.visualization.HeatmapLayer({
+
+    var heatmap = new google.maps.visualization.HeatmapLayer({
     data: heatMapData
     });
-    heatmap.setMap(map);*/
-
-    var layer = new google.maps.FusionTablesLayer({
+    heatmap.setMap(map);
+    /*var layer = new google.maps.FusionTablesLayer({
       query: {
         select: 'col0',
         //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
-        from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3OR'
-      }/*,
-      heatmap: {
-        data: heatMapData,
-        enabled: true
-      }*/
+        from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3ORa'
+      },
+      styleId: 2
     });
     layer.setMap(map);
+*/
   }
 }
 
@@ -66,30 +73,22 @@ function setMarkers(map, locs) {
   var positiveImg = {
     url: 'images/user-online.png',
     // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(16, 16),
+    size: new google.maps.Size(8, 8),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 16)
+    anchor: new google.maps.Point(0, 8)
   };
   var negativeImg = {
     url: 'images/user-offline.png',
     // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(16, 16),
+    size: new google.maps.Size(8, 8),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 16)
+    anchor: new google.maps.Point(0, 8)
   };
-  var neutralImg = {
-    url: 'images/white_dot.png',
-    // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(15, 15),
-    // The origin for this image is 0,0.
-    origin: new google.maps.Point(0,0),
-    // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 15)
-  };
+
   // Shapes define the clickable region of the icon.
   // The type defines an HTML &lt;area&gt; element 'poly' which
   // traces out a polygon as a series of X,Y points. The final
@@ -110,8 +109,6 @@ function setMarkers(map, locs) {
       img = positiveImg;
     }else if(tweet[3]<0){
       img = negativeImg;
-    }else{
-      img = neutralImg;
     }
     var marker = new google.maps.Marker({
         position: myLatLng,

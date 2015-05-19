@@ -6,24 +6,24 @@ David Monroy - 610346
 Daniel Teh - 558424
 Jaime Martinez - 642231
 */
+var host = "146.118.97.29";
+//changeHostHere
 
 
-var baseURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/";
-//var baseURL = "http://localhost:5984/tweets_adelaide/_design/adelaideview/_view/";
 var originURL = "trueorigin?group_level=1";
 var feelingsURL ="feelings";
 var sourceURL = "sourcetweet?group_level=1";
 var daysURL = "days_most_tweet?group_level=1";
-var perDayURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
-//var perDayURL = "http://localhost:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
-var test = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/feelings";
-//var test = "http://localhost:5984/tweets_adelaide/_design/adelaideview/_view/feelings";
-//Sentiment analysis
-var religion = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
-//var religion = "http://localhost:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
 
-//feelings
-//MAXgroup
+//var baseURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaideview/_view/";
+//var religion = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
+//var perDayURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
+
+var baseURL = "http://"+host+":5984/tweets_adelaide/_design/adelaideview/_view/";
+var religion = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
+var perDayURL = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
+
+// Divs
 var $selector2=document.getElementById('selector2');
 var $loading=document.getElementById('loading');
 var $typeNum = document.getElementById('typeNum');
@@ -87,6 +87,8 @@ GetView = function(done) {
 
 //Selectors
 function configureDropDownLists(ddl1,ddl2) {
+
+  console.log(host);
   var feelings = new Array('','Positive', 'Negative', 'Both');
   $selector2.style.display='none';
   $typeNum.style.display='none';
