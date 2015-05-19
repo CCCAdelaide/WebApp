@@ -38,7 +38,10 @@ showMap = false;
 showChart = false;
 drawHeatMap = false;
 var typeOfGraph="";
-var adelaide = [138.452454,-35.158091,138.757324,-34.682911]
+north = [138.213501,-34.953493,139.070435,-34.492975]
+south = [138.213501,-35.395767,139.070435,-34.953493]
+//var adelaide = [138.452454,-35.158091,138.757324,-34.682911]
+var adelaide = [138.213501,-35.395767,139.070435,-34.492975]
 //138.452454,-35.158091,138.757324,-34.682911
 function GetViewButton(){
   $getViewBtn.disabled=true;
@@ -69,7 +72,7 @@ GetView = function(done) {
       console.log(obj);
       if (showMap==true){
         drawHeatMap= document.getElementById('htmap').checked;
-        document.getElementById('ftlayer').style.display='block';
+      //  document.getElementById('ftlayer').style.display='block';
         feelingsMap(obj);
       }
       drawChart(obj['rows'],typeOfGraph);

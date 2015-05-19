@@ -21,38 +21,25 @@ function initialize() {
   }
   map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
   console.log(drawHeatMap);
-  if(!drawHeatMap){
-    setMarkers(map, locations);
-    /*var layer = new google.maps.FusionTablesLayer({
-      query: {
-        select: 'col0',
-        //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
-        from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3ORa'
-      },
-      styleId: 2
-    });
-    layer.setMap(map);*/
-    heatmap = new google.maps.visualization.HeatmapLayer({
-      data: heatMapData
-    });
-    heatmap.setMap(map);
-  }else{
+  setMarkers(map, locations);
+  if(drawHeatMap){
 
-    var heatmap = new google.maps.visualization.HeatmapLayer({
-    data: heatMapData
-    });
-    heatmap.setMap(map);
-    /*var layer = new google.maps.FusionTablesLayer({
+    var layer = new google.maps.FusionTablesLayer({
       query: {
         select: 'col0',
         //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
-        from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3ORa'
+        //from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3ORa'
+        from:'1vIjqwgRrB-z7C97kZ6ZLgV_fXxBo6erTba7Eaubx'
       },
       styleId: 2
     });
     layer.setMap(map);
-*/
+
   }
+  var heatmap = new google.maps.visualization.HeatmapLayer({
+  data: heatMapData
+  });
+  heatmap.setMap(map);
 }
 
 $('#map-canvas').on('shown', function () {
@@ -71,22 +58,22 @@ function setMarkers(map, locs) {
   // the Y direction down.
   console.log("setting markers")
   var positiveImg = {
-    url: 'images/user-online.png',
+    url: 'images/green-dot.png',
     // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(8, 8),
+    size: new google.maps.Size(10, 10),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 8)
+    anchor: new google.maps.Point(0, 10)
   };
   var negativeImg = {
     url: 'images/user-offline.png',
     // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(8, 8),
+    size: new google.maps.Size(10, 10),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 8)
+    anchor: new google.maps.Point(0, 10)
   };
 
   // Shapes define the clickable region of the icon.
