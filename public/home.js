@@ -34,22 +34,18 @@ function initialize() {
     heatmap.setMap(map);*/
 
     var layer = new google.maps.FusionTablesLayer({
-    query: {
-      select: 'col0',
-      //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
-      from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3OR'
-    },
-    heatmap: {
-      data: heatMapData,
-      enabled: true
-    }
-//  layer.setMap(map);
-}
-    /*var heatmap = new google.maps.visualization.HeatmapLayer({
-    data: heatMapData
+      query: {
+        select: 'col0',
+        //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
+        from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3OR'
+      }/*,
+      heatmap: {
+        data: heatMapData,
+        enabled: true
+      }*/
     });
-    heatmap.setMap(map);
-  }*/
+    layer.setMap(map);
+  }
 }
 
 $('#map-canvas').on('shown', function () {
