@@ -28,21 +28,21 @@ function initialize() {
     });
     heatmap.setMap(map);
   }else{
-    var heatmap = new google.maps.visualization.HeatmapLayer({
+  /*  var heatmap = new google.maps.visualization.HeatmapLayer({
     data: heatMapData
     });
-    heatmap.setMap(map);
+    heatmap.setMap(map);*/
 
-  /*  var layer = new google.maps.FusionTablesLayer({
+    var layer = new google.maps.FusionTablesLayer({
     query: {
       select: 'col0',
       //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
-      from: 'LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3OR'
+      from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3OR'
     },
     heatmap: {
-    //  data: heatMapData,
+      data: heatMapData,
       enabled: true
-    }*/
+    }
 //  layer.setMap(map);
 }
     /*var heatmap = new google.maps.visualization.HeatmapLayer({
