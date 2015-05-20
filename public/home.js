@@ -94,7 +94,7 @@ function setMarkers(map, locs) {
         position: myLatLng,
         map: map,
         icon: img,
-        title: "@"+tweet[0],
+        title:"@"+tweet[0]+" says: "+tweet[4]
 
     });
     markerBounds.extend(myLatLng);

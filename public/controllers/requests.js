@@ -11,7 +11,6 @@ var host = "146.118.96.142";
 
 
 var originURL = "trueorigin?group_level=1";
-var feelingsURL ="http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/feelings";
 var sourceURL = "sourcetweet?group_level=1";
 var daysURL = "days_most_tweet?group_level=1";
 
@@ -123,7 +122,7 @@ function configureDropDownLists(ddl1,ddl2) {
       showMap = true;
 
       typeOfGraph="Sentiment";
-      theURL = feelingsURL;
+      theURL = allTweetsURL;
       break;
     case 'Days':
       $getViewBtn.disabled=false;
@@ -200,24 +199,25 @@ function feelingsMap(obj){
     var long = obj['rows'][i]['key'][2][0];
     var user =  obj['rows'][i]['key'][0];
     var value = obj['rows'][i]['value']
+    var text = obj['rows'][i]['key'][1];
     //If within Adelaide
     if(lat<=adelaide[3]&&lat>=adelaide[1] && long>=adelaide[0] &&long<=adelaide[2]){
       var latLngObj =  new google.maps.LatLng(lat, long);
-      if(sent==="Positive" && value>=0){
+      if(sent==="Positive" && value>0){
         totalPos+=1;
-        locations.push([user,lat,long,value]);
+        locations.push([user,lat,long,value,text]);
         heatMapData.push(latLngObj);
       }else if(sent==="Negative" && value<0){
         totalNeg+=1;
-        locations.push([user,lat,long,value]);
+        locations.push([user,lat,long,value,text]);
         heatMapData.push(latLngObj);
       }else if(sent==="Both"){
-        if(value>=0){
+        if(value>0){
           totalPos+=1;
         }else{
           totalNeg+=1;
         }
-        locations.push([user,lat,long,value]);
+        locations.push([user,lat,long,value,text]);
         heatMapData.push(latLngObj);
       }
 
