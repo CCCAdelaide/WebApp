@@ -13,8 +13,9 @@ google.load("visualization", "1", {packages:["corechart","bar"]});
 function drawChart(obj,type) {
 
   console.log("drawing chart");
+  console.log(obj)
   var table =[]
-  if(type=="Sentiment"){
+  if(type=="Sentiment" || type == "All Tweets"){
     table = fTable;
   }else if(type == "Sentiment Per Day"){
     console.log("here?");

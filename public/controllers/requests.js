@@ -6,7 +6,7 @@ David Monroy - 610346
 Daniel Teh - 558424
 Jaime Martinez - 642231
 */
-var host = "146.118.97.29";
+var host = "146.118.96.142";
 //changeHostHere
 
 
@@ -19,10 +19,10 @@ var daysURL = "days_most_tweet?group_level=1";
 //var religion = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
 //var perDayURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
 
-var baseURL = "http://"+host+":5984/tweets_adelaide/_design/adelaideview/_view/";
+var baseURL = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/";
 var religion = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
 var perDayURL = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
-var allTweetsURL = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/"
+var allTweetsURL = "http://"+host+":5984/tweets_adelaide/_design/ade_view01/_view/tweets_coord"
 
 // Divs
 var $selector2=document.getElementById('selector2');
@@ -36,7 +36,7 @@ theURL = "";
 locations = [];
 heatMapData =[];
 showMap = false;
-showChart = false;
+
 drawHeatMap = false;
 all_tweets_map = false;
 var typeOfGraph="";
@@ -47,6 +47,7 @@ var adelaide = [138.213501,-35.395767,139.070435,-34.492975]
 //138.452454,-35.158091,138.757324,-34.682911
 function GetViewButton(){
   $getViewBtn.disabled=true;
+  console.log("here",showMap,all_tweets_map);
   if(showMap==true){
     $('.collapse').collapse("show");
     //console.log("run()?");
@@ -68,7 +69,7 @@ GetView = function(done) {
   xmlhttp.open("GET",theURL,true);
   xmlhttp.send();
   $loading.style.display='block';
-
+  console.log("GetView()");
   xmlhttp.onreadystatechange=function()
   {
 
@@ -76,6 +77,7 @@ GetView = function(done) {
       var obj = JSON.parse(xmlhttp.responseText);
       console.log(obj);
       if (showMap==true){
+        console.log("here");
         drawHeatMap= document.getElementById('htmap').checked;
       //  document.getElementById('ftlayer').style.display='block';
         feelingsMap(obj);
@@ -105,7 +107,7 @@ function configureDropDownLists(ddl1,ddl2) {
   $selector2.style.display='none';
   $typeNum.style.display='none';
   showMap = false;
-  showChart = true;
+
   $getViewBtn.disabled=true;
   document.getElementById('reset').disabled=false;
   switch (ddl1.value) {
@@ -116,7 +118,7 @@ function configureDropDownLists(ddl1,ddl2) {
         createOption(ddl2, feelings[i], feelings[i]);
       }
       showMap = true;
-      showChart = false;
+
       typeOfGraph="Sentiment";
       theURL = baseURL+feelingsURL;
       break;
@@ -161,7 +163,7 @@ function configureDropDownLists(ddl1,ddl2) {
         break;
     default:
       showMap = false;
-      showChart= false;
+
       $getViewBtn.disabled=true;
       $typeNum.style.display='none';
       ddl2.options.length = 0;
@@ -230,35 +232,33 @@ function allTweetsMap(obj){
 
   var totalPos = 0;
   var totalNeg = 0;
+  var totalNeutral = 0;
   fTable = [["Sentiment","Total"]];
   for (i=0;i<obj['rows'].length;i++){
     var lat = obj['rows'][i]['key'][2][1];
     var long = obj['rows'][i]['key'][2][0];
     var user =  obj['rows'][i]['key'][0];
-    var value = obj['rows'][i]['value']
+    var value = obj['rows'][i]['value'];
+    var text = obj['rows'][i]['key'][1];
+    //console.log(user,lat,long,value);
     //If within Adelaide
     if(lat<=adelaide[3]&&lat>=adelaide[1] && long>=adelaide[0] &&long<=adelaide[2]){
       var latLngObj =  new google.maps.LatLng(lat, long);
-      if(sent==="Positive" && value>=0){
+      locations.push([user,lat,long,value,text]);
+      heatMapData.push(latLngObj);
+     if(value>0){
         totalPos+=1;
-        locations.push([user,lat,long,value]);
-        heatMapData.push(latLngObj);
-      }else if(sent==="Negative" && value<0){
+      //  locations.push([user,lat,long,value]);
+      //  heatMapData.push(latLngObj);
+    }else if(value<0){
         totalNeg+=1;
-        locations.push([user,lat,long,value]);
-        heatMapData.push(latLngObj);
-      }else if(sent==="Both"){
-        if(value>=0){
-          totalPos+=1;
-        }else{
-          totalNeg+=1;
-        }
-        locations.push([user,lat,long,value]);
-        heatMapData.push(latLngObj);
-      }
+    }else{
+      totalNeutral+=1;
+    }
 
     }
   }
   fTable.push(["Positive",totalPos]);
   fTable.push(["Negative",totalNeg]);
+  fTable.push(["Neutral",totalNeutral]);
 }

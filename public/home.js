@@ -11,6 +11,7 @@ Jaime Martinez - 642231
 var $map = document.getElementById('map');
 
 function run(){
+  console.log("run")
   GetView(initialize);
 }
 function initialize() {
@@ -20,16 +21,17 @@ function initialize() {
     center: new google.maps.LatLng(-34.92, 138.60)
   }
   map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
-  console.log(drawHeatMap);
+  console.log("initialize: ",drawHeatMap);
   setMarkers(map, locations);
+  console.log("Markers done");
   if(drawHeatMap){
 
     var layer = new google.maps.FusionTablesLayer({
       query: {
         select: 'col0',
         //from: '1xWyeuAhIFK_aED1ikkQEGmR8mINSCJO9Vq-BPQ'
-        //from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3ORa'
-        from:'1vIjqwgRrB-z7C97kZ6ZLgV_fXxBo6erTba7Eaubx'
+        from: '1LXmoPasly1z3jqQHYdzrc4IKYkPIlSDmyZIW3ORa'
+        //from:'1vIjqwgRrB-z7C97kZ6ZLgV_fXxBo6erTba7Eaubx'
       },
       styleId: 2
     });
@@ -58,33 +60,24 @@ function setMarkers(map, locs) {
   // the Y direction down.
   console.log("setting markers")
   var positiveImg = {
-    url: 'images/green-dot.png',
+    url: 'images/male-2.png',
     // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(10, 10),
+    size: new google.maps.Size(32, 37),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 10)
+    anchor: new google.maps.Point(0, 37)
   };
   var negativeImg = {
-    url: 'images/user-offline.png',
+    url: 'images/male-neg.png',
     // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(10, 10),
+    size: new google.maps.Size(32, 32),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 10)
+    anchor: new google.maps.Point(0, 37)
   };
 
-  // Shapes define the clickable region of the icon.
-  // The type defines an HTML &lt;area&gt; element 'poly' which
-  // traces out a polygon as a series of X,Y points. The final
-  // coordinate closes the poly by connecting to the first
-  // coordinate.
-  var shape = {
-      coords: [1, 1, 1, 20, 18, 20, 18 , 1],
-      type: 'poly'
-  };
   var markerBounds = new google.maps.LatLngBounds();
   for (var i = 0; i < locs.length; i++) {
     var tweet = locs[i];
@@ -102,7 +95,7 @@ function setMarkers(map, locs) {
         map: map,
         icon: img,
         title: "@"+tweet[0],
-        shape: shape,
+
     });
     markerBounds.extend(myLatLng);
   }
@@ -110,7 +103,3 @@ function setMarkers(map, locs) {
   //var markerBounds = new google.maps.LatLngBounds();
   map.fitBounds(markerBounds);
 }
-//listeners
-google.maps.event.addListener(map, 'zoom_changed', function () {
-         heatmap.setOptions({radius:getNewRadius()});
-     });

@@ -21,9 +21,9 @@ function initialize2() {
   }
   map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
   console.log(drawHeatMap);
-  setMarkers2(map, locations);
-  if(drawHeatMap){
 
+//  if(drawHeatMap){
+  setMarkers2(map, locations);
     var layer = new google.maps.FusionTablesLayer({
       query: {
         select: 'col0',
@@ -34,8 +34,17 @@ function initialize2() {
       styleId: 2
     });
     layer.setMap(map);
+  //  1uXyKi0gDBGf4n2Y9x91tpjFVXfvCiTRwN1A1OsbI
+    var layer2 = new google.maps.FusionTablesLayer({
+      query: {
+        select: 'col0',
+        from:'1uXyKi0gDBGf4n2Y9x91tpjFVXfvCiTRwN1A1OsbI'
+      },
+      styleId: 2
+    });
+    layer2.setMap(map);
 
-  }
+//  }
   var heatmap = new google.maps.visualization.HeatmapLayer({
   data: heatMapData
   });
@@ -58,24 +67,32 @@ function setMarkers2(map, locs) {
   // the Y direction down.
   console.log("setting markers")
   var positiveImg = {
-    url: 'images/user-online.png',
+    url: 'images/male-2.png',
     // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(14, 14),
+    size: new google.maps.Size(32, 37),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 14)
+    anchor: new google.maps.Point(0, 37)
   };
   var negativeImg = {
-    url: 'images/user-offline.png',
+    url: 'images/male-neg.png',
     // This marker is 16 pixels wide by 16 pixels tall.
-    size: new google.maps.Size(14, 14),
+    size: new google.maps.Size(32, 32),
     // The origin for this image is 0,0.
     origin: new google.maps.Point(0,0),
     // The anchor for this image is the base of the flagpole at 0,32.
-    anchor: new google.maps.Point(0, 14)
+    anchor: new google.maps.Point(0, 37)
   };
-
+  var neutralImg = {
+    url: 'images/male-neu.png',
+    // This marker is 16 pixels wide by 16 pixels tall.
+    size: new google.maps.Size(32, 37),
+    // The origin for this image is 0,0.
+    origin: new google.maps.Point(0,0),
+    // The anchor for this image is the base of the flagpole at 0,32.
+    anchor: new google.maps.Point(0, 37)
+  };
   // Shapes define the clickable region of the icon.
   // The type defines an HTML &lt;area&gt; element 'poly' which
   // traces out a polygon as a series of X,Y points. The final
@@ -96,21 +113,21 @@ function setMarkers2(map, locs) {
       img = positiveImg;
     }else if(tweet[3]<0){
       img = negativeImg;
+    }else{
+      img = neutralImg;
     }
     var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
         icon: img,
-        title: "@"+tweet[0],
-        shape: shape,
+        title: "@"+tweet[0]+" says: "+tweet[4],
+      //  shape: shape
     });
     markerBounds.extend(myLatLng);
+
   }
 
-  //var markerBounds = new google.maps.LatLngBounds();
-  map.fitBounds(markerBounds);
-}
+    //var markerBounds = new google.maps.LatLngBounds();
+    map.fitBounds(markerBounds);
+  }
 //listeners
-google.maps.event.addListener(map, 'zoom_changed', function () {
-         heatmap.setOptions({radius:getNewRadius()});
-     });
