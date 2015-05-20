@@ -11,7 +11,7 @@ var host = "146.118.96.142";
 
 
 var originURL = "trueorigin?group_level=1";
-var feelingsURL ="feelings";
+var feelingsURL ="http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/feelings";
 var sourceURL = "sourcetweet?group_level=1";
 var daysURL = "days_most_tweet?group_level=1";
 
@@ -19,7 +19,7 @@ var daysURL = "days_most_tweet?group_level=1";
 //var religion = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
 //var perDayURL = "http://146.118.97.29:5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
 
-var baseURL = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/";
+var baseURL = "http://"+host+":5984/tweets_adelaide/_design/adelaideview/_view/";
 var religion = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/religion?group_level=2";
 var perDayURL = "http://"+host+":5984/tweets_adelaide/_design/adelaide_sentiment/_view/sentiment_period?group_level=2"
 var allTweetsURL = "http://"+host+":5984/tweets_adelaide/_design/ade_view01/_view/tweets_coord"
@@ -40,12 +40,15 @@ showMap = false;
 drawHeatMap = false;
 all_tweets_map = false;
 var typeOfGraph="";
-//north = [138.213501,-34.953493,139.070435,-34.492975]
-//south = [138.213501,-35.395767,139.070435,-34.953493]
-//var adelaide = [138.452454,-35.158091,138.757324,-34.682911]
 var adelaide = [138.213501,-35.395767,139.070435,-34.492975]
 //138.452454,-35.158091,138.757324,-34.682911
 function GetViewButton(){
+  $.get("http://"+host+":5984/tweets_adelaide", function(data){
+    var text = JSON.parse(data);
+    var count = text['doc_count'];
+    console.log(text,count);
+    document.getElementById('totalTweets').innerHTML = "# of Tweets: "+ count
+  });
   $getViewBtn.disabled=true;
   console.log("here",showMap,all_tweets_map);
   if(showMap==true){
@@ -120,7 +123,7 @@ function configureDropDownLists(ddl1,ddl2) {
       showMap = true;
 
       typeOfGraph="Sentiment";
-      theURL = baseURL+feelingsURL;
+      theURL = feelingsURL;
       break;
     case 'Days':
       $getViewBtn.disabled=false;
